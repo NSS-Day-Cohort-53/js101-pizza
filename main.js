@@ -27,7 +27,8 @@ console.log(foo, bar, "foobar:", foobar)
 // Our Pizza App!
 const toppings = []
 
-const crusts = [{
+const crusts = [
+  {
     id: 1,
     type: "deep dish",
     price: 2
@@ -44,7 +45,8 @@ const crusts = [{
   }
 ]
 
-const sizes = [{
+const sizes = [
+  {
     id: 1,
     circumference: 12,
     price: 7
@@ -55,13 +57,13 @@ const sizes = [{
     price: 10
   },
   {
-    id: 3,
     circumference: 16,
+    id: 3,
     price: 12
   }
 ]
 
-// Biulding an object can be done in different ways based on your particular situation
+// Building an object can be done in different ways based on your particular situation
 const pep = {}
 pep.name = "pepperoni"
 pep.price = 1.5
@@ -72,7 +74,7 @@ pep.id = 1
 pep.foo
 
 // You can reassign the value of a property 
-pep.name = "roni"
+pep.name = "pepperoni"
 pep.foo = "bar"
 
 // Take a look at what we have created in the dev tools' console tab
@@ -169,3 +171,46 @@ mushrooms.id = calcId(toppings)
 toppings.push(mushrooms)
 
 console.log(toppings) // Shows us that mushrooms is now in our toppings collection, and that it has an id of 3. 
+
+// A function for assembling a pizza
+// Our pizza function will return an object
+const makePizza = (crustOrder, toppingOrder, sizeOrder) => {
+  const pizza = {
+    crust: crustOrder,
+    topping: toppingOrder,
+    size: sizeOrder,
+    totalPrice: 0
+  }
+
+  for (const size of sizes) {
+    if (size.circumference === sizeOrder ) {
+      pizza.totalPrice += size.price
+    }
+  }
+  
+  //TODO add topping price to the pizza's total price
+  for (const topping of toppings) {
+    if (topping.name === toppingOrder ) {
+      pizza.totalPrice += topping.price
+    } 
+  }
+
+  for (const crust of crusts) {
+    if (crust.type === crustOrder ) {
+      pizza.totalPrice += crust.price
+    }
+  }
+
+  return pizza
+}
+
+
+const order1 = makePizza("deep dish", "pepperoni", 16)
+// const order2 = makePizza("traditional hand-tossed", "black olives", 14)
+
+document.querySelector("#orderConfirmation").innerHTML = `
+    <p>You ordered a ${order1.size}-inch ${order1.crust} ${order1.topping} pizza. 
+    Your total is $${order1.totalPrice.toFixed(2)}</p>
+  `
+
+
